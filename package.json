@@ -1,0 +1,45 @@
+{
+  "name": "mxgraph-import-export-adapter",
+  "version": "1.0.0",
+  "description": "import and export mxgraph",
+  "main": "lib/cjs/index.js",
+  "module": "lib/umd/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "rollup -c -w",
+    "build": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiddo-tech/mxgraph-import-export-adapter.git"
+  },
+  "keywords": [
+    "mxgraph",
+    "adapter",
+    "import",
+    "export"
+  ],
+  "author": "Shiddo Technology",
+  "license": "MIT",
+  "dependencies": {
+    "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-url": "^8.0.1",
+    "node-sass": "^8.0.0",
+    "postcss": "^8.4.20",
+    "rollup": "^2.79.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.57.1"
+  },
+  "peerDependencies": {
+    "xml-js": "^1.6.11"
+  }
+}

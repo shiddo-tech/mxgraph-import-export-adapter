@@ -1,0 +1,42 @@
+.mxgraph-toolbar {
+  position: absolute;
+  z-index: 100;
+  bottom: 6px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 5px;
+
+  box-shadow: 0px 0px 5px rgb(162, 162, 162);
+  border-radius: 3px;
+  background-color: #fff;
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: rgb(122, 122, 122);
+    background-color: transparent;
+
+    &:hover:not(:disabled) {
+      background-color: #fffec8;
+    }
+
+    &:disabled {
+      color: rgba(122, 122, 122, 0.5);
+      cursor: not-allowed;
+    }
+
+    .material-icons {
+      font-size: 26px;
+    }
+  }
+}
