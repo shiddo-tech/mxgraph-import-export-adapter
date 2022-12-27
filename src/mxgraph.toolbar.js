@@ -92,7 +92,7 @@ class MxGraphToolbar {
 
   createToolbar({ customClass, exportIcon, importIcon }) {
     this.toolbar = document.createElement('div');
-    this.toolbar.classList.add('mxgraph-toolbar');
+    this.toolbar.classList.add('mxgraph-import-export-toolbar');
 
     if (customClass) {
       this.toolbar.classList.add(customClass);
