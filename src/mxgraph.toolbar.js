@@ -18,7 +18,8 @@ class MxGraphToolbar {
   messages = {
     exportTitle: 'Exportar diagrama',
     importTitle: 'Importar diagrama',
-    importTitleDisabled: 'Não foi possível importar o arquivo, pois o diagrama já foi iniciado',
+    importTitleDisabled:
+      'Não é possível importar o arquivo, pois o diagrama já foi iniciado',
     emptyFile: 'Arquivo em branco',
     invalidFile: 'Arquivo inválido',
     containNoCells: 'Não foram encontradas células para serem importadas',
@@ -82,11 +83,11 @@ class MxGraphToolbar {
   canImportFile() {
     const cellsNumber = Object.keys(this.graph.model.cells).length;
 
-    // A estrutura do studio inicia com 2 células e o governance com 4
+    // A estrutura do studio inicia com 2 células e o governance com 5
     // não devemos permitir importar diagramas em diagramas iniciados/salvos
     return (
       (this.app === STUDIO && cellsNumber === 2) ||
-      (this.app === GOVERNANCE && cellsNumber === 4)
+      (this.app === GOVERNANCE && cellsNumber <= 5)
     );
   }
 
@@ -100,23 +101,25 @@ class MxGraphToolbar {
 
     const shouldImportFile = this.canImportFile();
 
-    this.importButton = this.createButton({
-      title: shouldImportFile
-        ? this.messages.importTitle
-        : this.messages.importTitleDisabled,
-      icon: importIcon,
-      className: 'import-button',
-      disabled: !shouldImportFile,
-    });
+    if (this.app === STUDIO) {
+      this.importButton = this.createButton({
+        title: shouldImportFile
+          ? this.messages.importTitle
+          : this.messages.importTitleDisabled,
+        icon: importIcon,
+        className: 'import-button',
+        disabled: !shouldImportFile,
+      });
 
-    this.toolbar.appendChild(this.importButton);
+      this.toolbar.appendChild(this.importButton);
 
-    this.importButton.addEventListener(
-      'click',
-      this.onClickImportButton.bind(this)
-    );
+      this.importButton.addEventListener(
+        'click',
+        this.onClickImportButton.bind(this)
+      );
+    }
 
-    if (this.app !== STUDIO) {
+    if (this.app === GOVERNANCE) {
       this.exportButton = this.createButton({
         title: this.messages.exportTitle,
         icon: exportIcon,
