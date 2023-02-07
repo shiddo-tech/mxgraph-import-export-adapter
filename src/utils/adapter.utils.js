@@ -1,11 +1,19 @@
 import { xml2json, json2xml } from 'xml-js';
 
+function sanitizeValue(value) {
+  const breakLine = '&#xA;';
+
+  return value.replaceAll('\n', breakLine);
+}
+
 export function convertXmlToJson(xml, options = { compact: true, spaces: 4 }) {
   if (!xml) {
     return;
   }
 
-  return JSON.parse(xml2json(xml, options));
+  return JSON.parse(
+    xml2json(xml, { ...options, attributeValueFn: sanitizeValue })
+  );
 }
 
 export function convertJsonToXml(json, options = { compact: true, spaces: 4 }) {

@@ -35,8 +35,8 @@
       cursor: not-allowed;
     }
 
-    .material-icons {
-      font-size: 26px;
+    svg {
+      flex-shrink: 0;
     }
   }
 }

@@ -57,11 +57,12 @@ export function mapCells({ mxCells, metadata, consumer }) {
           cell.mxGeometry._attributes.height = 32;
         }
 
+        // Elementos não suportados
         if (type === 'INTERMEDIATE_EVENT') {
           cell._attributes.value = `${normalizeValue}${style}${breakLine}não suportado`;
           cell._attributes.subType = 'none';
           cell._attributes.style = 'task';
-          cell.mxGeometry._attributes.width = 125;
+          cell.mxGeometry._attributes.width = 230;
           cell.mxGeometry._attributes.height = 82;
         }
 
@@ -69,7 +70,7 @@ export function mapCells({ mxCells, metadata, consumer }) {
           cell._attributes.value = `${normalizeValue}${style}${breakLine}não suportado`;
           cell._attributes.subType = 'none';
           cell._attributes.style = 'task';
-          cell.mxGeometry._attributes.width = 125;
+          cell.mxGeometry._attributes.width = 230;
           cell.mxGeometry._attributes.height = 82;
         }
 
