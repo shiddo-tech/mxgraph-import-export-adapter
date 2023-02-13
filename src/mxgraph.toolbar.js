@@ -1,3 +1,4 @@
+import { getMessages, setMessages } from './mxgraph/mxgraph.messages';
 import { Application, DiagramType, FileError } from './mxgraph/mxgraph.enums';
 import { getXmlTextGraph } from './utils/adapter.utils';
 import { importMxGraphFile, exportMxGraphFile } from './mxgraph';
@@ -15,17 +16,6 @@ class MxGraphToolbar {
   importButton = null;
   exportButton = null;
   notification = null;
-  messages = {
-    exportTitle: 'Exportar diagrama da plataforma Governance',
-    importTitle: 'Importar diagrama da plataforma Governance',
-    importTitleDisabled:
-      'Não é possível importar o diagrama da plataforma Governance, pois o diagrama já foi iniciado',
-    emptyFile: 'Arquivo em branco',
-    invalidFile: 'Arquivo inválido',
-    containNoCells: 'Não foram encontradas células para serem importadas',
-    errorImportingFile: 'Erro ao importar arquivo',
-    errorExportingFile: 'Erro ao exportar arquivo',
-  };
 
   init({
     app,
@@ -46,10 +36,7 @@ class MxGraphToolbar {
     this.renderGraph = renderGraph;
     this.initialCellsNumber = Object.keys(this.graph.model.cells).length;
 
-    this.messages = {
-      ...this.messages,
-      ...messages,
-    };
+    setMessages(messages);
 
     if (!this.graph) {
       throw new Error('Graph not found');
@@ -90,6 +77,8 @@ class MxGraphToolbar {
   }
 
   createToolbar({ customClass }) {
+    const messages = getMessages();
+
     this.toolbar = document.createElement('div');
     this.toolbar.classList.add('mxgraph-import-export-toolbar');
 
@@ -104,8 +93,8 @@ class MxGraphToolbar {
       this.importButton.classList.add('import-button', 'btn');
       // this.importButton.disabled = !shouldImportFile;
       this.importButton.title = shouldImportFile
-        ? this.messages.importTitle
-        : this.messages.importTitleDisabled;
+        ? messages.importTitle
+        : messages.importTitleDisabled;
 
       this.importButton.innerHTML = `
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +116,7 @@ class MxGraphToolbar {
     if (this.app === GOVERNANCE) {
       this.exportButton = document.createElement('button');
       this.exportButton.classList.add('export-button', 'btn');
-      this.exportButton.title = this.messages.exportTitle;
+      this.exportButton.title = messages.exportTitle;
 
       this.exportButton.innerHTML = `
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,9 +139,11 @@ class MxGraphToolbar {
   }
 
   async onClickImportButton() {
+    const messages = getMessages();
+
     try {
       if (!this.canImportFile()) {
-        this.showError(this.messages.importTitleDisabled);
+        this.showError(messages.importTitleDisabled);
         return;
       }
 
@@ -162,18 +153,18 @@ class MxGraphToolbar {
 
       this.renderGraph(modelerXml);
     } catch (error) {
-      let message = this.messages.errorImportingFile;
+      let message = messages.errorImportingFile;
 
       if (error.message === FileError.EMPTY_FILE) {
-        message = this.messages.emptyFile || message;
+        message = messages.emptyFile || message;
       }
 
       if (error.message === FileError.INVALID_FILE) {
-        message = this.messages.invalidFile || message;
+        message = messages.invalidFile || message;
       }
 
       if (error.message === FileError.CONTAIN_NO_CELLS) {
-        message = this.messages.containNoCells || message;
+        message = messages.containNoCells || message;
       }
 
       this.showError(message);
@@ -190,6 +181,8 @@ class MxGraphToolbar {
   }
 
   onClickExportButton() {
+    const messages = getMessages();
+
     try {
       const xml = getXmlTextGraph(this.graph);
       const metadata = {
@@ -204,7 +197,7 @@ class MxGraphToolbar {
         position: 'topRight',
         timeout: 1000 * 4,
         progressBar: true,
-        message: this.messages.errorExportingFile,
+        message: messages.errorExportingFile,
       });
     }
   }
