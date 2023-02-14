@@ -56,6 +56,10 @@ export function mapCells({ mxCells, metadata, consumer }) {
         cell._attributes.style = 'attribute-loop';
       }
 
+      if (style === 'annotation') {
+        importedCellsReport.push([style, value, 'Importado']);
+      }
+
       // Elementos não suportados
       if (unsupportedCells.includes(type)) {
         cell._attributes.value = normalizeValue;
