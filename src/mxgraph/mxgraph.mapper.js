@@ -1,5 +1,5 @@
 import { Application } from './mxgraph.enums';
-import { handleImportedCells } from './mxgraph.report';
+import { handleImportedCells, sanitizeCellContent } from './mxgraph.report';
 
 const { GOVERNANCE, STUDIO } = Application;
 
@@ -56,8 +56,20 @@ export function mapCells({ mxCells, metadata, consumer }) {
         cell._attributes.style = 'attribute-loop';
       }
 
+      if (style === 'lane') {
+        importedCellsReport.push([
+          style,
+          sanitizeCellContent(value),
+          'Importado',
+        ]);
+      }
+
       if (style === 'annotation') {
-        importedCellsReport.push([style, value, 'Importado']);
+        importedCellsReport.push([
+          style,
+          sanitizeCellContent(value),
+          'Importado',
+        ]);
       }
 
       // Elementos não suportados
@@ -68,7 +80,11 @@ export function mapCells({ mxCells, metadata, consumer }) {
         cell.mxGeometry._attributes.width = 125;
         cell.mxGeometry._attributes.height = 60;
 
-        importedCellsReport.push([style, value, 'Não suportado']);
+        importedCellsReport.push([
+          style,
+          sanitizeCellContent(value),
+          'Não suportado',
+        ]);
         hasUnsupported = true;
       }
 
@@ -90,9 +106,9 @@ function handleTask({ cell, importedCellsReport }) {
     cell._attributes.style = 'task';
     cell._attributes.subType = 'none';
 
-    importedCellsReport.push([style, value, 'Adaptado']);
+    importedCellsReport.push([style, sanitizeCellContent(value), 'Adaptado']);
   } else {
-    importedCellsReport.push([style, value, 'Importado']);
+    importedCellsReport.push([style, sanitizeCellContent(value), 'Importado']);
   }
 
   return cell;
@@ -106,9 +122,9 @@ function handleGateway({ cell, importedCellsReport }) {
     cell._attributes.style = 'gateway-exclusive';
     cell._attributes.subType = 'exclusive';
 
-    importedCellsReport.push([style, value, 'Adaptado']);
+    importedCellsReport.push([style, sanitizeCellContent(value), 'Adaptado']);
   } else {
-    importedCellsReport.push([style, value, 'Importado']);
+    importedCellsReport.push([style, sanitizeCellContent(value), 'Importado']);
   }
 
   return cell;
@@ -121,9 +137,9 @@ function handleStartEvent({ cell, importedCellsReport }) {
     cell._attributes.style = 'start-event';
     cell._attributes.subType = 'none';
 
-    importedCellsReport.push([style, value, 'Adaptado']);
+    importedCellsReport.push([style, sanitizeCellContent(value), 'Adaptado']);
   } else {
-    importedCellsReport.push([style, value, 'Importado']);
+    importedCellsReport.push([style, sanitizeCellContent(value), 'Importado']);
   }
 
   cell.mxGeometry._attributes.width = 32;
@@ -140,7 +156,7 @@ function handleEndEvent({ cell, importedCellsReport }) {
   cell.mxGeometry._attributes.width = 32;
   cell.mxGeometry._attributes.height = 32;
 
-  importedCellsReport.push([style, value, 'Adaptado']);
+  importedCellsReport.push([style, sanitizeCellContent(value), 'Adaptado']);
 
   return cell;
 }

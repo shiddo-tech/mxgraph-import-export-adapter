@@ -49,3 +49,7 @@ function createModal({ content, okButtonText, onOk }) {
     document.body.removeChild(modal);
   });
 }
+
+export function sanitizeCellContent(value) {
+  return value?.replaceAll('&#xA;', ' ');
+}

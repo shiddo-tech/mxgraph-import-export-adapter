@@ -12,7 +12,10 @@ export function convertXmlToJson(xml, options = { compact: true, spaces: 4 }) {
   }
 
   return JSON.parse(
-    xml2json(xml, { ...options, attributeValueFn: sanitizeValue })
+    xml2json(xml, {
+      ...options,
+      attributeValueFn: sanitizeValue,
+    })
   );
 }
 
