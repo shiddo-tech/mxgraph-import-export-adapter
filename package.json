@@ -1,6 +1,6 @@
 {
   "name": "mxgraph-import-export-adapter",
-  "version": "1.2.3",
+  "version": "1.3.0",
   "description": "import and export mxgraph",
   "main": "lib/cjs/index.js",
   "module": "lib/umd/index.js",

@@ -57,11 +57,7 @@ export function mapCells({ mxCells, metadata, consumer }) {
       }
 
       if (style === 'lane') {
-        importedCellsReport.push([
-          style,
-          sanitizeCellContent(value),
-          'Importado',
-        ]);
+        return handleLane({ cell, importedCellsReport });
       }
 
       if (style === 'annotation') {
@@ -111,7 +107,7 @@ function handleTask({ cell, importedCellsReport }) {
     importedCellsReport.push([style, sanitizeCellContent(value), 'Importado']);
   }
 
-  return cell;
+  return mapCellModel(cell);
 }
 
 function handleGateway({ cell, importedCellsReport }) {
@@ -127,7 +123,7 @@ function handleGateway({ cell, importedCellsReport }) {
     importedCellsReport.push([style, sanitizeCellContent(value), 'Importado']);
   }
 
-  return cell;
+  return mapCellModel(cell);
 }
 
 function handleStartEvent({ cell, importedCellsReport }) {
@@ -145,7 +141,7 @@ function handleStartEvent({ cell, importedCellsReport }) {
   cell.mxGeometry._attributes.width = 32;
   cell.mxGeometry._attributes.height = 32;
 
-  return cell;
+  return mapCellModel(cell);
 }
 
 function handleEndEvent({ cell, importedCellsReport }) {
@@ -158,5 +154,34 @@ function handleEndEvent({ cell, importedCellsReport }) {
 
   importedCellsReport.push([style, sanitizeCellContent(value), 'Adaptado']);
 
-  return cell;
+  return mapCellModel(cell);
+}
+
+function handleLane({ cell, importedCellsReport }) {
+  const { style, value } = cell?._attributes || {};
+
+  importedCellsReport.push([style, sanitizeCellContent(value), 'Importado']);
+
+  return mapCellModel(cell);
+}
+
+function mapCellModel(cell) {
+  return {
+    _attributes: {
+      id: cell._attributes.id,
+      value: cell._attributes.value || '',
+      style: cell._attributes.style,
+      vertex: cell._attributes.vertex,
+      parent: cell._attributes.parent,
+    },
+    mxGeometry: {
+      _attributes: {
+        as: cell.mxGeometry._attributes.as,
+        x: cell.mxGeometry._attributes.x,
+        y: cell.mxGeometry._attributes.y,
+        width: cell.mxGeometry._attributes.width,
+        height: cell.mxGeometry._attributes.height,
+      },
+    },
+  };
 }
