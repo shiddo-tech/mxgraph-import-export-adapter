@@ -26,6 +26,8 @@ class MxGraphToolbar {
     notification,
     customClass = '',
     messages = {},
+    targetContainer = 'body',
+    targetContainersFirstChild = true,
   }) {
     // com app é possível identificar se é STUDIO ou GOVERNANCE
     this.app = app;
@@ -61,6 +63,8 @@ class MxGraphToolbar {
 
     this.createToolbar({
       customClass,
+      targetContainer,
+      targetContainersFirstChild,
     });
   }
 
@@ -76,7 +80,7 @@ class MxGraphToolbar {
     return this.initialCellsNumber <= 5 && currentCellsNumber <= 5;
   }
 
-  createToolbar({ customClass }) {
+  createToolbar({ targetContainer, targetContainersFirstChild, customClass }) {
     const messages = getMessages();
 
     this.toolbar = document.createElement('div');
@@ -135,7 +139,16 @@ class MxGraphToolbar {
       );
     }
 
-    document.body.appendChild(this.toolbar);
+    const container = document.querySelector(targetContainer);
+
+    if (!container) {
+      console.warn(`Mxgraph import export toolbar target container not found`);
+      return;
+    }
+
+    targetContainersFirstChild
+      ? container.prepend(this.toolbar)
+      : container.appendChild(this.toolbar);
   }
 
   async onClickImportButton() {
