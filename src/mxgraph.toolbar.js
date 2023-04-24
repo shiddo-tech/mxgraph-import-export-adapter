@@ -68,6 +68,12 @@ class MxGraphToolbar {
     });
   }
 
+  destroy() {
+    if (this.toolbar) {
+      this.toolbar.parentElement.removeChild(this.toolbar);
+    }
+  }
+
   canImportFile() {
     const currentCellsNumber = Object.keys(this.graph.model.cells).length;
 
