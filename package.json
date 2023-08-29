@@ -1,6 +1,6 @@
 {
   "name": "mxgraph-import-export-adapter",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "import and export mxgraph",
   "main": "lib/cjs/index.js",
   "module": "lib/umd/index.js",
@@ -31,7 +31,6 @@
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-url": "^8.0.1",
-    "node-sass": "^6.0.1",
     "postcss": "^8.4.20",
     "rollup": "^2.79.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
