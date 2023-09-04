@@ -6,6 +6,11 @@ import { importMxGraphFile, exportMxGraphFile } from './mxgraph';
 const { GOVERNANCE, STUDIO } = Application;
 const { bpmn } = DiagramType;
 
+const DEFAULT_NOTIFICATION_OPTIONS = {
+  timeout: 1000 * 4,
+  progressBar: true,
+};
+
 class MxGraphToolbar {
   app = null;
   version = null;
@@ -16,6 +21,7 @@ class MxGraphToolbar {
   importButton = null;
   exportButton = null;
   notification = null;
+  notificationOptions = {};
 
   init({
     app,
@@ -24,6 +30,7 @@ class MxGraphToolbar {
     graph,
     renderGraph,
     notification,
+    notificationOptions,
     customClass = '',
     messages = {},
     targetContainer = 'body',
@@ -35,6 +42,7 @@ class MxGraphToolbar {
     this.diagramType = diagramType;
     this.graph = graph;
     this.notification = notification;
+    this.notificationOptions = notificationOptions || {};
     this.renderGraph = renderGraph;
     this.initialCellsNumber = Object.keys(this.graph.model.cells).length;
 
@@ -192,9 +200,8 @@ class MxGraphToolbar {
 
   showError(message) {
     this.notification.error({
-      position: 'topRight',
-      timeout: 1000 * 4,
-      progressBar: true,
+      ...DEFAULT_NOTIFICATION_OPTIONS,
+      ...this.notificationOptions,
       message,
     });
   }
@@ -212,12 +219,7 @@ class MxGraphToolbar {
 
       exportMxGraphFile({ xml, metadata });
     } catch (error) {
-      this.notification.error({
-        position: 'topRight',
-        timeout: 1000 * 4,
-        progressBar: true,
-        message: messages.errorExportingFile,
-      });
+      this.showError(messages.errorExportingFile);
     }
   }
 }
